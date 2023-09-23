@@ -9,6 +9,7 @@ namespace Tic_Tac_Toe_Last
         static char _ai;
         static int _humanScore = 0;
         static int _aiScore = 0;
+        static int _drawScore = 0;
         static void Main(string[] args)
         {
             TicTacToeStart();
@@ -17,16 +18,8 @@ namespace Tic_Tac_Toe_Last
         static void TicTacToeStart()
         {
             InitializeBoard();
-
-            Console.Write("X or O: ");
-            _human = char.Parse(Console.ReadLine().ToUpper());
-            bool validInput = ValidateInput(_human);
-
-            if (!validInput)
-            {
-                Console.WriteLine("Invalid input. Exiting.");
-                return;
-            }
+            Console.Write("X ? O: ");
+            _human = ValidateInput(char.Parse(Console.ReadLine().ToUpper()));
 
             if (_human == 'X')
             {
@@ -53,23 +46,42 @@ namespace Tic_Tac_Toe_Last
                 {
                     _humanScore++;
                 }
-                else
+                else if (ifWinning(_ai)) 
                 {
                     _aiScore++;
                 }
-
+                else
+                {
+                    _drawScore++;
+                }
+                Console.WriteLine($"Player - {_humanScore}    CPU - {_aiScore}    Draw - {_drawScore}");
             }
-        }
-
-        static bool ValidateInput(char choice)
-        {
-            if (choice != 'X' && choice != 'O')
+            if (_humanScore == 3)
             {
-                Console.WriteLine("Choose between X or O only!");
-                return false;
+                Console.WriteLine("Congratulations! You have won the game!");
             }
-            return true;
+            else if (_aiScore == 3)
+            {
+                Console.WriteLine("CPU has won!");
+            }
+
         }
+
+        static char ValidateInput(char symbol)
+        {
+            Console.Clear();
+            if (symbol != 'X' && symbol != 'O')
+            {
+                Console.WriteLine("Must choose between X and O only!");
+                Console.Write("X or O: ");
+                symbol = char.Parse(Console.ReadLine().ToUpper());
+                return ValidateInput(symbol);
+            }
+            return symbol;
+        }
+
+
+
         static void InitializeBoard()
         {
             for (int i = 0; i < 3; i++)
@@ -83,7 +95,7 @@ namespace Tic_Tac_Toe_Last
         static void DisplayBoard()
         {
             Console.Clear();
-            Console.WriteLine($"Player - {_humanScore} \tCPU - {_aiScore}");
+            Console.WriteLine($"Player - {_humanScore}    CPU - {_aiScore}    Draw - {_drawScore}");
             Console.WriteLine("\t     |     |     ");
             Console.WriteLine($"\t  {tboard[0, 0]}  |  {tboard[0, 1]}  |  {tboard[0, 2]}  ");
             Console.WriteLine("\t_____|_____|_____");
