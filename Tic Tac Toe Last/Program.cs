@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace Tic_Tac_Toe_Last
 {
@@ -17,22 +19,14 @@ namespace Tic_Tac_Toe_Last
 
         static void TicTacToeStart()
         {
-            InitializeBoard();
+
             Console.Write("X ? O: ");
             _human = ValidateInput(char.Parse(Console.ReadLine().ToUpper()));
-
-            if (_human == 'X')
-            {
-                _ai = 'O';
-            }
-            else
-            {
-                _ai = 'X';
-            }
+            _ai = (_human == 'X') ? 'O' : 'X';
 
             while (_humanScore < 3 && _aiScore < 3)
             {
-
+                InitializeBoard();
                 if (_human == 'X')
                 {
                     isHumanTurn();
@@ -42,31 +36,33 @@ namespace Tic_Tac_Toe_Last
                     isAiTurn();
                 }
 
-                if (ifWinning(_human))
-                {
+                if (ifWinning(_human)) // count human win
+                { 
                     _humanScore++;
                 }
-                else if (ifWinning(_ai)) 
+                else if (ifWinning(_ai)) // count ai win
                 {
                     _aiScore++;
                 }
-                else
+                else // count draw
                 {
                     _drawScore++;
                 }
+                Console.WriteLine("\n");
                 Console.WriteLine($"Player - {_humanScore}    CPU - {_aiScore}    Draw - {_drawScore}");
             }
             if (_humanScore == 3)
             {
                 Console.WriteLine("Congratulations! You have won the game!");
+                GameHistory();
             }
             else if (_aiScore == 3)
             {
                 Console.WriteLine("CPU has won!");
+                GameHistory();
             }
 
         }
-
         static char ValidateInput(char symbol)
         {
             Console.Clear();
@@ -79,9 +75,6 @@ namespace Tic_Tac_Toe_Last
             }
             return symbol;
         }
-
-
-
         static void InitializeBoard()
         {
             for (int i = 0; i < 3; i++)
@@ -96,15 +89,16 @@ namespace Tic_Tac_Toe_Last
         {
             Console.Clear();
             Console.WriteLine($"Player - {_humanScore}    CPU - {_aiScore}    Draw - {_drawScore}");
-            Console.WriteLine("\t     |     |     ");
-            Console.WriteLine($"\t  {tboard[0, 0]}  |  {tboard[0, 1]}  |  {tboard[0, 2]}  ");
-            Console.WriteLine("\t_____|_____|_____");
-            Console.WriteLine("\t     |     |     ");
-            Console.WriteLine($"\t  {tboard[1, 0]}  |  {tboard[1, 1]}  |  {tboard[1, 2]}  ");
-            Console.WriteLine("\t_____|_____|_____");
-            Console.WriteLine("\t     |     |     ");
-            Console.WriteLine($"\t  {tboard[2, 0]}  |  {tboard[2, 1]}  |  {tboard[2, 2]}  ");
-            Console.WriteLine("\t     |     |     ");
+            Console.WriteLine("\t     |     |               |     |     ");
+            Console.WriteLine($"\t  {tboard[0, 0]}  |  {tboard[0, 1]}  |  {tboard[0, 2]}        0 0 | 0 1 | 0 2 ");
+            Console.WriteLine("\t_____|_____|_____     _____|_____|_____");
+            Console.WriteLine("\t     |     |               |     |     ");
+            Console.WriteLine($"\t  {tboard[1, 0]}  |  {tboard[1, 1]}  |  {tboard[1, 2]}        1 0 | 1 1 | 1 2 ");
+            Console.WriteLine("\t_____|_____|_____     _____|_____|_____");
+            Console.WriteLine("\t     |     |               |     |     ");
+            Console.WriteLine($"\t  {tboard[2, 0]}  |  {tboard[2, 1]}  |  {tboard[2, 2]}        2 0 | 2 1 | 2 2 ");
+            Console.WriteLine("\t     |     |               |     |     ");
+            Console.WriteLine("\n");
         }
         static void isHumanTurn()
         {
@@ -119,7 +113,6 @@ namespace Tic_Tac_Toe_Last
                     DisplayBoard();
                     if (ifWinning(_human))
                     {
-                        Console.WriteLine("Player has won!");
                         break;
                     }
                 }
@@ -129,14 +122,12 @@ namespace Tic_Tac_Toe_Last
                     DisplayBoard();
                     if (ifWinning(_ai))
                     {
-                        Console.WriteLine("AI has won!");
                         break;
                     }
                 }
 
                 if (isFull())
                 {
-                    Console.WriteLine("It's a Draw!");
                     break;
                 }
 
@@ -151,12 +142,11 @@ namespace Tic_Tac_Toe_Last
             while (true)
             {
                 if (aiTurn)
-                {
+                {                
                     AiMove();
                     DisplayBoard();
                     if (ifWinning(_ai))
                     {
-                        Console.WriteLine("Ai has won!");
                         break;
                     }
                 }
@@ -166,14 +156,12 @@ namespace Tic_Tac_Toe_Last
                     DisplayBoard();
                     if (ifWinning(_human))
                     {
-                        Console.WriteLine("Human has won!");
                         break;
                     }
                 }
 
                 if (isFull())
                 {
-                    Console.WriteLine("It's a Draw!");
                     break;
                 }
 
@@ -185,6 +173,7 @@ namespace Tic_Tac_Toe_Last
             int x, y;
             do
             {
+                Console.WriteLine("\n");
                 Console.Write("Enter your moves (row column): ");
                 string[] move = Console.ReadLine().Split();
                 x = int.Parse(move[0]);
@@ -322,6 +311,20 @@ namespace Tic_Tac_Toe_Last
 
             // Continue the game
             return false;
+        }
+        static void GameHistory()
+        {
+            string outputfile = "Gamehistory.txt";
+            using (StreamWriter gameHistory = new StreamWriter(outputfile))
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    for (int j = 0; j < 3; j++)
+                    {
+                        gameHistory.Write(tboard[i, j]);
+                    }
+                }
+            }
         }
     }
 }
