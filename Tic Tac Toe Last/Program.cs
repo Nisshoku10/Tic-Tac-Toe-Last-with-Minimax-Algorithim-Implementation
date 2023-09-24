@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 
 namespace Tic_Tac_Toe_Last
 {
@@ -12,14 +12,14 @@ namespace Tic_Tac_Toe_Last
         static int _humanScore = 0;
         static int _aiScore = 0;
         static int _drawScore = 0;
+        static int _round = 1;
         static void Main(string[] args)
         {
             TicTacToeStart();
         }
-
         static void TicTacToeStart()
         {
-
+            
             Console.Write("X ? O: ");
             _human = ValidateInput(char.Parse(Console.ReadLine().ToUpper()));
             _ai = (_human == 'X') ? 'O' : 'X';
@@ -50,18 +50,17 @@ namespace Tic_Tac_Toe_Last
                 }
                 Console.WriteLine("\n");
                 Console.WriteLine($"Player - {_humanScore}    CPU - {_aiScore}    Draw - {_drawScore}");
+                _round++;
             }
             if (_humanScore == 3)
             {
                 Console.WriteLine("Congratulations! You have won the game!");
-                GameHistory();
             }
             else if (_aiScore == 3)
             {
                 Console.WriteLine("CPU has won!");
-                GameHistory();
             }
-
+            GameHistory();
         }
         static char ValidateInput(char symbol)
         {
@@ -104,24 +103,27 @@ namespace Tic_Tac_Toe_Last
         {
             DisplayBoard();
             bool humanTurn = (_human == 'X');
-
             while (true)
             {
+                Console.WriteLine($"Round {_round}");
                 if (humanTurn)
                 {
                     HumanMove();
                     DisplayBoard();
                     if (ifWinning(_human))
                     {
+                        GameHistory();
                         break;
                     }
                 }
                 else
                 {
+                    Thread.Sleep(1000);
                     AiMove();
                     DisplayBoard();
                     if (ifWinning(_ai))
                     {
+                        GameHistory();
                         break;
                     }
                 }
@@ -141,12 +143,15 @@ namespace Tic_Tac_Toe_Last
 
             while (true)
             {
+                Console.WriteLine($"Round {_round}");
                 if (aiTurn)
-                {                
+                {       
+                    Thread.Sleep(2000);
                     AiMove();
                     DisplayBoard();
                     if (ifWinning(_ai))
                     {
+                        GameHistory();
                         break;
                     }
                 }
@@ -156,6 +161,7 @@ namespace Tic_Tac_Toe_Last
                     DisplayBoard();
                     if (ifWinning(_human))
                     {
+                        GameHistory();
                         break;
                     }
                 }
@@ -319,8 +325,8 @@ namespace Tic_Tac_Toe_Last
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    for (int j = 0; j < 3; j++)
-                    {
+                    for (int j = 0; j < 3; j++) 
+                    { 
                         gameHistory.Write(tboard[i, j]);
                     }
                 }
