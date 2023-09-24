@@ -112,7 +112,6 @@ namespace Tic_Tac_Toe_Last
                     DisplayBoard();
                     if (ifWinning(_human))
                     {
-                        GameHistory();
                         break;
                     }
                 }
@@ -123,7 +122,6 @@ namespace Tic_Tac_Toe_Last
                     DisplayBoard();
                     if (ifWinning(_ai))
                     {
-                        GameHistory();
                         break;
                     }
                 }
@@ -132,8 +130,8 @@ namespace Tic_Tac_Toe_Last
                 {
                     break;
                 }
-
                 humanTurn = !humanTurn; // Switch turns
+                GameHistory();
             }
         }
         static void isAiTurn()
@@ -151,7 +149,6 @@ namespace Tic_Tac_Toe_Last
                     DisplayBoard();
                     if (ifWinning(_ai))
                     {
-                        GameHistory();
                         break;
                     }
                 }
@@ -161,7 +158,6 @@ namespace Tic_Tac_Toe_Last
                     DisplayBoard();
                     if (ifWinning(_human))
                     {
-                        GameHistory();
                         break;
                     }
                 }
@@ -170,8 +166,8 @@ namespace Tic_Tac_Toe_Last
                 {
                     break;
                 }
-
                 aiTurn = !aiTurn; // Switch turns
+                GameHistory();
             }
         }
         static void HumanMove()
