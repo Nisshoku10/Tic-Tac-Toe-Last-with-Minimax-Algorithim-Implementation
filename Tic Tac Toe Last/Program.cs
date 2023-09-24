@@ -321,15 +321,19 @@ namespace Tic_Tac_Toe_Last
         static void GameHistory()
         {
             string outputfile = "Gamehistory.txt";
-            using (StreamWriter sw = new StreamWriter(outputfile))
+            using (StreamWriter GameHistory = new StreamWriter(outputfile))
             {
-                for (int i = 0; i < 3; i++)
-                {
-                    for (int j = 0; j < 3; j++) 
-                    {
-                        sw.Write(tboard[i, j]);
-                    }
-                }
+                GameHistory.WriteLine($"Player - {_humanScore}    CPU - {_aiScore}    Draw - {_drawScore}");
+                GameHistory.WriteLine("\t     |     |               |     |     ");
+                GameHistory.WriteLine($"\t  {tboard[0, 0]}  |  {tboard[0, 1]}  |  {tboard[0, 2]}        0 0 | 0 1 | 0 2 ");
+                GameHistory.WriteLine("\t_____|_____|_____     _____|_____|_____");
+                GameHistory.WriteLine("\t     |     |               |     |     ");
+                GameHistory.WriteLine($"\t  {tboard[1, 0]}  |  {tboard[1, 1]}  |  {tboard[1, 2]}        1 0 | 1 1 | 1 2 ");
+                GameHistory.WriteLine("\t_____|_____|_____     _____|_____|_____");
+                GameHistory.WriteLine("\t     |     |               |     |     ");
+                GameHistory.WriteLine($"\t  {tboard[2, 0]}  |  {tboard[2, 1]}  |  {tboard[2, 2]}        2 0 | 2 1 | 2 2 ");
+                GameHistory.WriteLine("\t     |     |               |     |     ");
+                GameHistory.WriteLine("\n");
             }
         }
     }
