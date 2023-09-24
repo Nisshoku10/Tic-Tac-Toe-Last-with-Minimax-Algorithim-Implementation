@@ -224,7 +224,7 @@ namespace Tic_Tac_Toe_Last
                 return 1;
             }
 
-            if (isFull() &&)
+            if (isFull())
             {
                 return 0;
             }
