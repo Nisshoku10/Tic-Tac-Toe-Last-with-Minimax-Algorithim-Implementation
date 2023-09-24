@@ -30,10 +30,12 @@ namespace Tic_Tac_Toe_Last
                 if (_human == 'X')
                 {
                     isHumanTurn();
+                    GameHistory();
                 }
                 else
                 {
                     isAiTurn();
+                    GameHistory();
                 }
 
                 if (ifWinning(_human)) // count human win
@@ -131,7 +133,6 @@ namespace Tic_Tac_Toe_Last
                     break;
                 }
                 humanTurn = !humanTurn; // Switch turns
-                GameHistory();
             }
         }
         static void isAiTurn()
@@ -167,7 +168,6 @@ namespace Tic_Tac_Toe_Last
                     break;
                 }
                 aiTurn = !aiTurn; // Switch turns
-                GameHistory();
             }
         }
         static void HumanMove()
@@ -224,7 +224,7 @@ namespace Tic_Tac_Toe_Last
                 return 1;
             }
 
-            if (isFull())
+            if (isFull() &&)
             {
                 return 0;
             }
