@@ -58,7 +58,7 @@ namespace Tic_Tac_Toe_Last
             }
             else if (_aiScore == 3)
             {
-                Console.WriteLine("CPU has won!");
+                Console.WriteLine("CPU has won! Better luck next time!");
             }
             GameHistory();
         }
@@ -321,13 +321,13 @@ namespace Tic_Tac_Toe_Last
         static void GameHistory()
         {
             string outputfile = "Gamehistory.txt";
-            using (StreamWriter gameHistory = new StreamWriter(outputfile))
+            using (StreamWriter sw = new StreamWriter(outputfile))
             {
                 for (int i = 0; i < 3; i++)
                 {
                     for (int j = 0; j < 3; j++) 
-                    { 
-                        gameHistory.Write(tboard[i, j]);
+                    {
+                        sw.Write(tboard[i, j]);
                     }
                 }
             }
